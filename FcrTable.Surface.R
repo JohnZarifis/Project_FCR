@@ -12,6 +12,3 @@ ids <- sort(sample(1:nr, round(nr*rate, 1)))
 
 data.fcr.tr <- data.fcr[ids,]
 data.fcr.ts <- data.fcr[-ids,]
-
-# gerasimos
-#john
