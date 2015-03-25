@@ -14,4 +14,3 @@ data.fcr.tr <- data.fcr[ids,]
 data.fcr.ts <- data.fcr[-ids,]
 
 # gerasimos
-# john
