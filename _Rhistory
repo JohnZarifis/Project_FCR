@@ -1,0 +1,5 @@
+setwd("C:/Users/gerasimos/Google Drive/Project_DataMining_Aquaculture/Project_FCR")
+source('C:/Users/gerasimos/Google Drive/Project_DataMining_Aquaculture/Project_FCR/FcrTable.Surface.R')
+source('C:/Users/gerasimos/Google Drive/Project_DataMining_Aquaculture/Project_FCR/FcrTable.Surface.R')
+source('C:/Users/gerasimos/Google Drive/Project_DataMining_Aquaculture/Project_FCR/FcrTable.Surface.R')
+View(data.fcr.tr)
