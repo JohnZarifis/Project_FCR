@@ -55,9 +55,12 @@ data.fcr.ts <- data.fcr[-ids,]
 pred.data <- data.frame('Temp'=data.fcr.ts$Temp, 'AvWeight'=data.fcr.ts$AvWeight)
 
 
-fcr.fit <- loess(data.fcr.tr$FCR ~ data.fcr.tr$Temp * data.fcr.tr$AvWeight, span = 1,
-                    family = 'gaussian')
+#fcr.fit <- loess(data.fcr.tr$FCR ~ data.fcr.tr$Temp * data.fcr.tr$AvWeight, span = 1,
+#                    family = 'gaussian')
 
+fcr.fit <- gam(formula=FCR ~ s(Temp, bs="cr") + s(AvWeight, bs="cr"), 
+                      family=gaussian(link=identity), data=data.fcr.tr)
+          
 Temp.vals <- seq(from = 11, to = 27, by = 1)
 #AvWeight.vals <- seq(from = 1, to = 1000, by = 20)
 AvWeight.vals <-c(0.75,2.5,6,11,16,26.5,47.5,70,90,125,175,225,275,325,425)
@@ -76,11 +79,10 @@ plot3d(AvWeight.vals,Temp.vals,predicted.FCR,type="p", col="red", xlab="Temp", y
 plot3d(data.fcr$Temp,data.fcr$AvWeight,data.fcr$FCR,type="p", col="green", xlab="Temp", ylab="FCR", zlab="Av. Weigth" )
 
 
-
 Temp.vals <- unique(data.fcr$Temp)
-AvWeight.vals <-unique(data.fcr$AvWeight)
+#AvWeight.vals <-unique(data.fcr$AvWeight)
 #AvWeight.vals <- seq(from = 1, to = 1000, by = 20)
-#AvWeight.vals <-c(0.75,2.5,6,11,16,26.5,47.5,70,90,125,175,225,275,325,425)
+AvWeight.vals <-c(0.75,2.5,6,11,16,26.5,47.5,70,90,125,175,225,275,325,425)
 predicted.FCR <- predict(fcr.fit, newdata = expand.grid(AvWeight = AvWeight.vals,Temp = Temp.vals ))
 predFCR = data.frame(predicted.FCR)
 View(predFCR)
