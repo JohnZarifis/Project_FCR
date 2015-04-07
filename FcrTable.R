@@ -111,7 +111,7 @@ for (i in 1:nc)
   ds <- data.fcr[data.fcr$AvWeightCat == categories[i], ]
   x <- ds$Temp
   y <-ds$FCR
-  rate <- 0.4
+  rate <- 0.5
   
   res <- Best.Fitting.Curve( x, y, rate, categories[i] )
   
