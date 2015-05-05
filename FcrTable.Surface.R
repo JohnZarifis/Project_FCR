@@ -2,12 +2,15 @@ library("ggplot2")
 library("gam")
 library("mgcv")
 library("rgl")
+library("readxl")
 
-fcr <- read.csv("fcr1b.csv", sep=";")
-fcr <- fcr[fcr$Factor>0 & fcr$Temp<=27& fcr$Temp>=11,]
-# View(fcr)
+#fcr <- read.csv("fcr1b.csv", sep=";")
+#fcr <- fcr[fcr$Factor>0 & fcr$Temp<=27& fcr$Temp>=11,]
+#View(fcr)
 
-data.fcr <- data.frame("AvWeightCat" = factor(fcr$category), "Temp"=fcr$Temp, "AvWeight"=fcr$AvWeight, "FCR"=fcr$Factor)
+fcr <- read_excel('FCR_Template.xlsx',sheet=1,col_names=TRUE, na='na')
+
+data.fcr <- data.frame("AvWeightCat" = factor(fcr$category), "Temp"=fcr$Temp, "AvWeight"=fcr$AvWeight, "FCR"=fcr$FCR)
 nr <- nrow(data.fcr)
 
 #---------------------------------------------------------------------------------
