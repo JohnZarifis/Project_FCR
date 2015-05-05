@@ -10,8 +10,8 @@ library("readxl")
 
 fcr <- read_excel('FCR_Template.xlsx',sheet=1,col_names=TRUE, na='na')
 categories <- read_excel('FCR_Template.xlsx',sheet=2,col_names=TRUE, na='na')
-View(categories)
-str(categories)
+#View(categories)
+#str(categories)
 
 data.fcr <- data.frame("AvWeightCat" = factor(fcr$category), "Temp"=fcr$Temp, "AvWeight"=fcr$AvWeight, "FCR"=fcr$FCR)
 nr <- nrow(data.fcr)
@@ -126,16 +126,16 @@ Temp.vals <- seq(from=11, to=27, by=1)
 #AvWeight.vals <- unique(c(data.fcr.tr$AvWeight,data.fcr.ts$AvWeight))
 #AvWeight.vals <- seq(from=0, to=max(data.fcr$AvWeight), by=50)
 
-AvWeight.vals <- c( 2.25, 6, 14, 35, 75)
-#AvWeight.vals <- categories$AvgCategory
+#AvWeight.vals <- c( 2.25, 6, 14, 35, 75)
+AvWeight.vals <- categories$AvgCategory
 
 predicted.FCR <- predict(best.mod, newdata = expand.grid(Temp = Temp.vals, AvWeight = AvWeight.vals))
 
 mat<-matrix(predicted.FCR,nrow =length(Temp.vals), ncol= length(AvWeight.vals))
 mat <- t(mat)
 colnames(mat)<-paste("Temp", Temp.vals,sep=" ")
-row.names(mat)<-paste("AvWeight", AvWeight.vals,sep=" ")
-
+#row.names(mat)<-paste("AvWeight", AvWeight.vals,sep=" ")
+row.names(mat)<-categories$category
 predFCR = as.data.frame(mat)
 View(predFCR)
 write.csv2(round(predFCR,3), file='FCR.Table.Surf.csv',row.names=TRUE )
@@ -151,8 +151,8 @@ library("lattice")
 grid <- expand.grid(Temp = Temp.vals, AvWeight = AvWeight.vals)
 grid[["Predict.FCR"]] <- predict(best.mod, newdata = grid)
 
-#png("Predict.BestGamModel.Surface.png")
+png("Predict.BestGamModel.Surface.png")
 wireframe(Predict.FCR ~ Temp * AvWeight, grid, outer = TRUE, shade = TRUE, 
           xlab="Temperature", ylab="Av Weight",zlab = "Predict FCR", zoom=1,
           drape = TRUE, colorkey = TRUE)
-#dev.off()
+dev.off()
