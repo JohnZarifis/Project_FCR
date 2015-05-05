@@ -44,10 +44,10 @@ pred.gam.m3 <- predict(gam.m3, pred.data)
 rmse.gam.m3 <- sqrt( mean( (data.fcr.ts$FCR - pred.gam.m3)^2 ) )
 
 # model that both predictors are non-linear and interaction between them
-gam.m4 <- gam(formula = FCR ~ s(Temp) + s(AvWeight) + s(AvWeight,Temp), data=data.fcr.tr)  
-summary.gam.m4 <-summary(gam.m4)
-pred.gam.m4 <- predict(gam.m4, pred.data)
-rmse.gam.m4 <- sqrt( mean( (data.fcr.ts$FCR - pred.gam.m4)^2 ) )
+# gam.m4 <- gam(formula = FCR ~ s(Temp) + s(AvWeight) + s(AvWeight,Temp), data=data.fcr.tr)  
+# summary.gam.m4 <-summary(gam.m4)
+# pred.gam.m4 <- predict(gam.m4, pred.data)
+# rmse.gam.m4 <- sqrt( mean( (data.fcr.ts$FCR - pred.gam.m4)^2 ) )
 
 
 # Comparing the models
@@ -67,15 +67,15 @@ if (gam.m3$converged){
   res.cor.gam[nrow(res.cor.gam)+1,] <- c( round(summary.gam.m3$r.sq,3), paste(round(summary.gam.m3$dev.expl*100,3),'%',sep=''), round(gam.m3$aic,3), round(gam.m3$gcv.ubre,3), round(rmse.gam.m3,3) )
   models[[length(models)+1]] <- gam.m3
 }
-if (gam.m4$converged){
-  res.cor.gam[nrow(res.cor.gam)+1,] <- c( round(summary.gam.m4$r.sq,3), paste(round(summary.gam.m4$dev.expl*100,3),'%',sep=''), round(gam.m4$aic,3), round(gam.m4$gcv.ubre,3), round(rmse.gam.m4,3) )
-  models[[length(models)+1]] <- gam.m4  
-}
+# if (gam.m4$converged){
+#   res.cor.gam[nrow(res.cor.gam)+1,] <- c( round(summary.gam.m4$r.sq,3), paste(round(summary.gam.m4$dev.expl*100,3),'%',sep=''), round(gam.m4$aic,3), round(gam.m4$gcv.ubre,3), round(rmse.gam.m4,3) )
+#   models[[length(models)+1]] <- gam.m4  
+# }
 
-row.names(res.cor.gam) <- c("gam.m1", "gam.m2", "gam.m3", "gam.m4")
+row.names(res.cor.gam) <- c("gam.m1", "gam.m2", "gam.m3") #, "gam.m4")
 print(res.cor.gam)
 
-anv.gam.mods <- anova(gam.m1,gam.m2,gam.m3,gam.m4,test="F")
+anv.gam.mods <- anova(gam.m1,gam.m2,gam.m3,test="F") #gam.m4,
 print(anv.gam.mods)
 
 #----------------------------------------------------------------------------------------------------------------
@@ -119,9 +119,12 @@ dev.off()
 #------------------------------------------------------------------------------------
 # Predict new FCR values in range of Temperature and AvWeight values
 
-Temp.vals <- seq(from=10, to=30, by=1)
+Temp.vals <- seq(from=11, to=27, by=1)
 #AvWeight.vals <- unique(c(data.fcr.tr$AvWeight,data.fcr.ts$AvWeight))
-AvWeight.vals <- seq(from=0, to=max(data.fcr$AvWeight), by=50)
+#AvWeight.vals <- seq(from=0, to=max(data.fcr$AvWeight), by=50)
+
+AvWeight.vals <- c( 2.25, 6, 14, 35, 75)
+
 predicted.FCR <- predict(best.mod, newdata = expand.grid(Temp = Temp.vals, AvWeight = AvWeight.vals))
 
 mat<-matrix(predicted.FCR,nrow =length(Temp.vals), ncol= length(AvWeight.vals))
@@ -144,8 +147,8 @@ library("lattice")
 grid <- expand.grid(Temp = Temp.vals, AvWeight = AvWeight.vals)
 grid[["Predict.FCR"]] <- predict(best.mod, newdata = grid)
 
-png("Predict.BestGamModel.Surface.png")
+#png("Predict.BestGamModel.Surface.png")
 wireframe(Predict.FCR ~ Temp * AvWeight, grid, outer = TRUE, shade = TRUE, 
           xlab="Temperature", ylab="Av Weight",zlab = "Predict FCR", zoom=1,
           drape = TRUE, colorkey = TRUE)
-dev.off()
+#dev.off()
