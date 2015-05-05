@@ -9,6 +9,9 @@ library("readxl")
 #View(fcr)
 
 fcr <- read_excel('FCR_Template.xlsx',sheet=1,col_names=TRUE, na='na')
+categories <- read_excel('FCR_Template.xlsx',sheet=2,col_names=TRUE, na='na')
+View(categories)
+str(categories)
 
 data.fcr <- data.frame("AvWeightCat" = factor(fcr$category), "Temp"=fcr$Temp, "AvWeight"=fcr$AvWeight, "FCR"=fcr$FCR)
 nr <- nrow(data.fcr)
@@ -124,6 +127,7 @@ Temp.vals <- seq(from=11, to=27, by=1)
 #AvWeight.vals <- seq(from=0, to=max(data.fcr$AvWeight), by=50)
 
 AvWeight.vals <- c( 2.25, 6, 14, 35, 75)
+#AvWeight.vals <- categories$AvgCategory
 
 predicted.FCR <- predict(best.mod, newdata = expand.grid(Temp = Temp.vals, AvWeight = AvWeight.vals))
 
