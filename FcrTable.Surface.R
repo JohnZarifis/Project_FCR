@@ -17,7 +17,7 @@ nr <- nrow(data.fcr)
 #                  Search for the best model
 #---------------------------------------------------------------------------------
 #
-rate <- 0.4 
+rate <- 1
 ids <- sort(sample(1:nr, round(nr*rate, 1)))
 
 data.fcr.tr <- data.fcr[ids,]
