@@ -10,8 +10,8 @@ library("readxl")
 
 fcr <- read_excel('FCR_Template.xlsx',sheet=1,col_names=TRUE, na='na')
 categories <- read_excel('FCR_Template.xlsx',sheet=2,col_names=TRUE, na='na')
-View(categories)
-str(categories)
+#View(categories)
+#str(categories)
 
 data.fcr <- data.frame("AvWeightCat" = factor(fcr$category), "Temp"=fcr$Temp, "AvWeight"=fcr$AvWeight, "FCR"=fcr$FCR)
 nr <- nrow(data.fcr)
@@ -135,8 +135,12 @@ mat<-matrix(predicted.FCR,nrow =length(Temp.vals), ncol= length(AvWeight.vals))
 mat <- t(mat)
 colnames(mat)<-paste("Temp", Temp.vals,sep=" ")
 #row.names(mat)<-paste("AvWeight", AvWeight.vals,sep=" ")
+<<<<<<< HEAD
 row.names(mat) <- categories$category
 
+=======
+row.names(mat)<-categories$category
+>>>>>>> origin/production
 predFCR = as.data.frame(mat)
 View(predFCR)
 write.csv2(round(predFCR,3), file='FCR.Table.Surf.csv',row.names=TRUE )
